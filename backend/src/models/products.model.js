@@ -1,5 +1,5 @@
 // productModel.js
-const connection = require('../configuration/connection');
+const connection = require('./connection');
 
 const getAllProducts = async () => {
   const [products] = await connection.execute(

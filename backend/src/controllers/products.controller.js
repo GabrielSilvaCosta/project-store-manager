@@ -1,5 +1,5 @@
 // ProductControler.js
-const productsService = require('../services/ProductService');
+const productsService = require('../services/products.service');
 
 const getAllProducts = async (req, res) => {
   try {
