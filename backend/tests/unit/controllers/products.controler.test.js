@@ -4,6 +4,7 @@ const productsModels = require('../../../src/models/products.model');
 const {
 
   getAllProductsFromModel,
+  
 } = require('../../mocks/products.mock');
 
 describe('Products Controller unit tests', function () {
