@@ -45,4 +45,23 @@ describe('Products Controller unit tests', function () {
 
     getAllProductsStub.restore();
   });
+
+  it('deve buscar e retornar um produto pelo ID', async function () {
+    const getProductByIdStub = sinon.stub(productsModels, 'getProductById');
+    const expectedProduct = { id: 1, name: 'Product 1' };
+    getProductByIdStub.withArgs(1).resolves(expectedProduct);
+
+    const req = { params: { id: 1 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productsController.getProductById(req, res);
+
+    sinon.assert.calledWith(res.status, 200);
+    sinon.assert.calledWith(res.json, expectedProduct);
+
+    getProductByIdStub.restore();
+  });
 });
