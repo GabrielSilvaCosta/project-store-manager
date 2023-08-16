@@ -32,8 +32,20 @@ const createProduct = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+
+  try {
+    const { status, data } = await productsService.updateProduct(body, id);
+    return res.status(mapStatusHTTP(status)).json(data);
+  } catch (error) {
+    return res.status(500).json({ error: 'An error occurred while updating the product' });
+  }
+};
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
+  updateProduct,
 };

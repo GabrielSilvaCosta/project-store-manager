@@ -21,8 +21,30 @@ const createProduct = async (productId) => {
   }
 };
 
+const updateProduct = async (product, id) => {
+  const error = validation.validateNewProduct(product);
+  if (error) {
+    return { status: error.status, data: { message: error.message } };
+  }
+
+  const oldProduct = await productsModel.getProductById(id);
+  if (!oldProduct) {
+    return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+  }
+
+  try {
+    await productsModel.updateProduct(product, id);
+
+    const updatedProduct = await productsModel.getProductById(id);
+    return { status: 'SUCCESSFUL', data: updatedProduct };
+  } catch (err) {
+    return { status: 'ERROR', data: { message: 'An error occurred while updating the product' } };
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
+  updateProduct,
 };
