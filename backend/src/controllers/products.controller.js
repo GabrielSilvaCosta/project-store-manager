@@ -1,5 +1,6 @@
 // ProductControler.js
 const productsService = require('../services/products.service');
+const mapStatusHTTP = require('../utils/mapStatusHTTP');
 
 const getAllProducts = async (req, res) => {
   try {
@@ -25,13 +26,10 @@ const getProductById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { name } = req.body;
-  try {
-    const newProduct = await productsService.createProduct(name);
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(500).json({ error: 'Error creating product' });
-  }
+  const { body } = req;
+  const { status, data } = await productsService.createProduct(body);
+
+  return res.status(mapStatusHTTP(status)).json(data);
 };
 
 module.exports = {
