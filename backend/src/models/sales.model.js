@@ -40,7 +40,30 @@ const findById = async (salesId) => {
   return camelCaseSales;
 };
 
+const saveSales = async (sales, salesId) => {
+  const insertPromises = sales.map(({ productId, quantity }) =>
+    connection
+    .execute('INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)', [
+      salesId, productId, quantity]));
+
+  await Promise.all(insertPromises);
+};
+
+const insert = async (sales) => {
+  const data = new Date();
+  const [{ insertId }] = await connection.execute('INSERT INTO sales (date) VALUES (?)', [data]);
+
+  await saveSales(sales, insertId);
+
+  return insertId;
+};
+
+module.exports = {
+  insert,
+};
+
 module.exports = {
   findAll,
   findById,
+  insert,
 };

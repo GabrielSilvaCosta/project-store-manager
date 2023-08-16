@@ -17,7 +17,17 @@ const findById = async (salesId) => {
   return handleResponse('SUCCESSFUL', sale);
 };
 
+const createSale = async (saleData) => {
+  const saleId = await salesModel.insert(saleData);
+  const itemsSold = saleData.map((item) => ({
+    productId: item.productId,
+    quantity: item.quantity,
+  }));
+  return handleResponse('CREATED', { id: saleId, itemsSold });
+};
+
 module.exports = {
   findAll,
   findById,
+  createSale,
 };

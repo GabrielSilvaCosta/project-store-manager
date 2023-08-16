@@ -17,7 +17,14 @@ const findById = async (req, res) => {
   return handleResponse(res, result);
 };
 
+const createSale = async (req, res) => {
+  const { body } = req;
+  const result = await salesService.createSale(body);
+  return handleResponse(res, result);
+};
+
 module.exports = {
   findAll,
   findById,
+  createSale,
 };
