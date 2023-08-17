@@ -43,9 +43,25 @@ const updateProduct = async (req, res) => {
     return res.status(500).json({ error: 'An error occurred while updating the product' });
   }
 };
+
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await productsService.deleteProduct(id);
+
+    const { status, data } = response;
+    const statusCode = mapStatusHTTP(status);
+
+    return res.status(statusCode).json(data);
+  } catch (error) {
+    return res.status(500).end();
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
+  deleteProduct,
 };

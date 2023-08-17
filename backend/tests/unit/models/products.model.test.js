@@ -28,4 +28,41 @@ describe('Testes unitários dos Modelos de Produtos', function () {
     expect(produto).to.be.an('object');
     expect(produto).to.deep.equal(getProductByIdFromModel);
   });
+
+  it('createProduct deve inserir um novo produto e retornar o ID inserido', async function () {
+    const newProduct = { name: 'New Product' };
+    const insertId = 123;
+
+    sinon.stub(conexao, 'execute').resolves([{ insertId }]);
+    const result = await modelsDeProdutos.createProduct(newProduct);
+
+    expect(result).to.equal(insertId);
+  });
+
+  it('updateProduct deve atualizar um produto e não retornar nenhum resultado', async function () {
+    const updatedProduct = { name: 'Updated Product' };
+    const productId = 1;
+
+    sinon.stub(conexao, 'execute');
+    await modelsDeProdutos.updateProduct(updatedProduct, productId);
+
+    sinon.assert.calledWith(
+      conexao.execute,
+      'UPDATE products SET name = ? WHERE id = ?',
+      ['Updated Product', 1],
+    );
+  });
+
+  // it('deleteProduct deve excluir um produto e não retornar nenhum resultado', async function () {
+  //   const productId = 1;
+
+  //   sinon.stub(conexao, 'execute');
+  //   await modelsDeProdutos.deleteProduct(productId);
+
+  //   sinon.assert.calledWith(
+  //     conexao.execute,
+  //     'DELETE FROM products WHERE id = ?',
+  //     [1],
+  //   );
+  // });
 });

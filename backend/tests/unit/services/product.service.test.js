@@ -65,4 +65,44 @@ describe('Product Creation', function () {
     stubValidation.restore();
     stubCreateProduct.restore();
   });
+  it('Should handle error during product update', async function () {
+    const productId = 123;
+    const inputData = { name: 'Updated Product Name' };
+
+    const stubValidation = sinon.stub(validation, 'validateNewProduct').returns(null);
+    const stubGetProductById = sinon.stub(productsModel, 'getProductById').resolves({ id: productId });
+    const stubUpdateProduct = sinon.stub(productsModel, 'updateProduct').rejects(new Error('Database error'));
+
+    const responseService = await productsService.updateProduct(inputData, productId);
+
+    expect(responseService.status).to.equal('ERROR');
+    expect(responseService.data.message).to.equal('An error occurred while updating the product');
+
+    sinon.assert.calledOnce(stubValidation);
+    sinon.assert.calledOnce(stubGetProductById);
+    sinon.assert.calledOnce(stubUpdateProduct);
+
+    stubValidation.restore();
+    stubGetProductById.restore();
+    stubUpdateProduct.restore();
+  });
+
+  it('Should handle product not found during update', async function () {
+    const productId = 123;
+    const inputData = { name: 'Updated Product Name' };
+
+    const stubValidation = sinon.stub(validation, 'validateNewProduct').returns(null);
+    const stubGetProductById = sinon.stub(productsModel, 'getProductById').resolves(null);
+
+    const responseService = await productsService.updateProduct(inputData, productId);
+
+    expect(responseService.status).to.equal('NOT_FOUND');
+    expect(responseService.data.message).to.equal('Product not found');
+
+    sinon.assert.calledOnce(stubValidation);
+    sinon.assert.calledOnce(stubGetProductById);
+
+    stubValidation.restore();
+    stubGetProductById.restore();
+  });
 });

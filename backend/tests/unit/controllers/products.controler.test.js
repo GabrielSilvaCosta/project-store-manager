@@ -102,4 +102,40 @@ describe('Products Controller unit tests', function () {
   
     updateProductStub.restore();
   });
+
+  it('deve retornar status 404 ao buscar um produto inexistente por ID', async function () {
+    const getProductByIdStub = sinon.stub(productsModels, 'getProductById');
+    getProductByIdStub.withArgs(999).resolves(null);
+  
+    const req = { params: { id: 999 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  
+    await productsController.getProductById(req, res);
+  
+    sinon.assert.calledWith(res.status, 404);
+    sinon.assert.calledWith(res.json, { message: 'Product not found' });
+  
+    getProductByIdStub.restore();
+  });
+  
+  it('deve excluir um produto com sucesso', async function () {
+    const deleteProductStub = sinon.stub(productsService, 'deleteProduct');
+    deleteProductStub.withArgs(1).resolves({ status: 'DELETED', data: {} });
+  
+    const req = { params: { id: 1 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  
+    await productsController.deleteProduct(req, res);
+  
+    sinon.assert.calledWith(res.status, 204);
+    sinon.assert.calledWith(res.json, {});
+  
+    deleteProductStub.restore();
+  });
 });

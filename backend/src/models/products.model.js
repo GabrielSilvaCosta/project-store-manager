@@ -29,9 +29,21 @@ const updateProduct = async (product, id) => {
   return connection.execute(query, [name, id]);
 };
 
+const deleteProduct = async (id) => {
+  const query = 'DELETE FROM products WHERE id = ?';
+  try {
+    const [result] = await connection.execute(query, [id]);
+    return result;
+  } catch (error) {
+    console.error('Erro ao excluir produto:', error);
+    return null; 
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
+  deleteProduct,
 };
