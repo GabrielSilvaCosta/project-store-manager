@@ -59,10 +59,6 @@ const insert = async (sales) => {
 };
 
 module.exports = {
-  insert,
-};
-
-module.exports = {
   findAll,
   findById,
   insert,
