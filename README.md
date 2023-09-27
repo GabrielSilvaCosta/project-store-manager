@@ -1,10 +1,3 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+Projeto de API REST com Arquitetura de Camadas
+
+Este projeto implementa uma API REST para o gerenciamento de produtos em uma loja virtual. A arquitetura do projeto segue o padrão de arquitetura em camadas, dividindo as responsabilidades em diferentes módulos e garantindo uma estrutura organizada e escalável.
